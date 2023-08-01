@@ -63,6 +63,11 @@ class PostController extends Controller
     {
         $post->update($request->all());
 
+        if($request->hasFile('avatar')){
+            $post->clearMediaCollection('avatar');
+            $post->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
+
         return to_route('posts.index');
     }
 

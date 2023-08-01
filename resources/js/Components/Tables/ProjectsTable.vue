@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, h } from "vue"
+import { ref } from "vue"
 import { Link } from '@inertiajs/vue3'
 import BasicTable from "@/Components/Tables/BasicTable.vue"
 const props = defineProps({
@@ -10,11 +10,11 @@ const props = defineProps({
     }
 })
 
-
 const fields = ref([
-    { key: 'avatar', label: 'Post Cover', },
-    { key: 'title', label: 'Post title', },
-    { key: 'body', label: 'Post Body', format: (item) => item },
+    { key: 'avatar', label: 'Cover', header: true },
+    { key: 'url', label: 'Project Url', },
+    { key: 'title', label: 'Project Title', },
+    { key: 'description', label: 'Project Description', format: (item) => item },
     { key: 'actions', label: 'Actions' },
 ])
 
@@ -74,23 +74,27 @@ const fields = ref([
                         </div>
                         <input type="text" id="table-search-users"
                             class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Search for posts">
+                            placeholder="Search for projects">
                     </div>
                 </div>
             </template>
+
             <template #cell(avatar)="{ item }">
                 <div class="max-w-4 h-auto">
-                    <img :src="item?.avatar" class="object-cover aspect-square" />
+                    <img :src="item.avatar" class="object-cover aspect-square" />
                 </div>
+            </template>
+            <template #cell(url)="{ item }">
+                <div class="min-w-4 p-2 whitespace-nowrap">{{ item.url }}</div>
             </template>
             <template #cell(title)="{ item }">
                 <div class="min-w-4 p-2 whitespace-nowrap">{{ item.title }}</div>
             </template>
-            <template #cell(body)="{ item }">
-                <div class="min-w-4 p-2 whitespace-nowrap">{{ item.body }}</div>
+            <template #cell(description)="{ item }" class="w-4 p-6 whitespace-nowrap">
+                <div class="min-w-4 p-2 whitespace-nowrap">{{ item.description }}</div>
             </template>
             <template #cell(actions)="{ item }" class="items-end">
-                <Link :href="route('posts.edit', item.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                <Link :href="route('projects.edit', item.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
             </template>
         </BasicTable>
     </div>

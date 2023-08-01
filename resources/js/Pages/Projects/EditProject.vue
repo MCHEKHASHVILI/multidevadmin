@@ -7,47 +7,61 @@ import TextareaInput from '@/Components/TextareaInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 
-defineProps({
+const props = defineProps({
     message: {
         type: String,
         required: false,
         default: null,
+    },
+    project: {
+        type: Object,
+        required: true,
     }
 })
+
 const form = useForm({
-    title: null,
-    body: null,
-    avatar: null,
+    url: props.project?.url,
+    title: props.project?.title,
+    description: props.project?.description,
 })
 
+function submit()
+{
+    // console.log(form);
+    form.put(route('projects.update', { project: props.project?.id }))
+}
 
 </script>
 <template>
     <AdminLayout>
-        <Head title="Create Post" />
+        <Head title="Edit Project" />
 
         <template #header>
-            Create Post
+            Edit Project
         </template>
 
-        <form @submit.prevent="form.post(route('posts.store'))">
+        <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="flex flex-col space-y-4">
-                <div>
+                <!-- <div>
                     <input type="file" @input="form.avatar = $event.target.files[0]" />
                         <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                         {{ form.progress.percentage }}%
                     </progress>
+                </div> -->
+                <div>
+                    <InputLabel>Project Public Url</InputLabel>
+                    <TextInput v-model="form.url" class="w-full" />
                 </div>
                 <div>
-                    <InputLabel>Post Title</InputLabel>
+                    <InputLabel>Project Title</InputLabel>
                     <TextInput v-model="form.title" class="w-full" />
                 </div>
                 <div>
-                    <InputLabel>Post Body</InputLabel>
-                    <TextareaInput rows="4" v-model="form.body" />
+                    <InputLabel>Project Description</InputLabel>
+                    <TextareaInput rows="4" v-model="form.description" />
                 </div>
                 <div>
-                    <PrimaryButton class="uppercase">submit</PrimaryButton>
+                    <PrimaryButton class="uppercase">update</PrimaryButton>
                 </div>
             </div>
         </form>

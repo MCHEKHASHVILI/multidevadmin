@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
+use App\Models\Project;
+use App\Observers\PostObserver;
+use App\Observers\ProjectObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Project::observe(ProjectObserver::class);
+        Post::observe(PostObserver::class);
+        JsonResource::withoutWrapping();
     }
 }

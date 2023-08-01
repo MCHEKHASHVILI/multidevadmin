@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import AdminLayout from "@/Layouts/AdminLayout.vue"
 import { Head } from '@inertiajs/vue3'
 import TextInput from '@/Components/TextInput.vue'
@@ -30,10 +31,10 @@ const form = useForm({
         <Head title="Create Post" />
 
         <template #header>
-            Create Post
+            Edit Post
         </template>
 
-        <form @submit.prevent="form.put(route('posts.update', { post: props.post?.id }))">
+        <form @submit.prevent="router.post(route('posts.update', { post: props.post?.id }), { _method: 'put', ...form })">
             <div class="flex flex-col space-y-4">
                 <div>
                     <InputLabel>Post Title</InputLabel>

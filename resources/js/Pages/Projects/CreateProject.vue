@@ -7,30 +7,23 @@ import TextareaInput from '@/Components/TextareaInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 
-defineProps({
-    message: {
-        type: String,
-        required: false,
-        default: null,
-    }
-})
 const form = useForm({
+    url: null,
     title: null,
-    body: null,
+    description: null,
     avatar: null,
 })
-
 
 </script>
 <template>
     <AdminLayout>
-        <Head title="Create Post" />
+        <Head title="Create Project" />
 
         <template #header>
-            Create Post
+            Create Project
         </template>
 
-        <form @submit.prevent="form.post(route('posts.store'))">
+        <form @submit.prevent="form.post(route('projects.store'))">
             <div class="flex flex-col space-y-4">
                 <div>
                     <input type="file" @input="form.avatar = $event.target.files[0]" />
@@ -39,12 +32,16 @@ const form = useForm({
                     </progress>
                 </div>
                 <div>
-                    <InputLabel>Post Title</InputLabel>
+                    <InputLabel>Project Public Url</InputLabel>
+                    <TextInput v-model="form.url" class="w-full" />
+                </div>
+                <div>
+                    <InputLabel>Project Title</InputLabel>
                     <TextInput v-model="form.title" class="w-full" />
                 </div>
                 <div>
-                    <InputLabel>Post Body</InputLabel>
-                    <TextareaInput rows="4" v-model="form.body" />
+                    <InputLabel>Project Description</InputLabel>
+                    <TextareaInput rows="4" v-model="form.description" />
                 </div>
                 <div>
                     <PrimaryButton class="uppercase">submit</PrimaryButton>
