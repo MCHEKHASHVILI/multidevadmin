@@ -17,4 +17,9 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        hmr: {
+            host: process.env.APP_URL,
+        },
+    },
 });
