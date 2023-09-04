@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Projects\ProjectResource;
 use App\Http\Requests\Projects\ProjectStoreRequest;
 use App\Http\Requests\Projects\ProjectUpdateRequest;
 use App\Http\Resources\Projects\ProjectListResource;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -75,10 +75,10 @@ class ProjectController extends Controller
 
         // dd($project);
 
-        // if($request->hasFile('avatar')){
-        //     $project->clearMediaCollection('avatar');
-        //     $project->addMediaFromRequest('avatar')->toMediaCollection('avatar');
-        // }
+        if($request->hasFile('avatar')){
+            $project->clearMediaCollection('avatar');
+            $project->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
 
         return to_route('projects.index');
     }
@@ -89,5 +89,12 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function uploadImage(Request $request)
+    {
+        return response()->json([
+            'request' => $request
+        ]);
     }
 }

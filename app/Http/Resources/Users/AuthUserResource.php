@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Projects;
+namespace App\Http\Resources\Users;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class AuthUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class ProjectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'url' => $this->url,
-            'avatar' => $this->getFirstMediaUrl('avatar'),
+            'name' => $this->name,
+            'email' => $this->email,
+            'avatar' => $this->getFirstMediaUrl('avatar', 'thumb'),
         ];
     }
 }

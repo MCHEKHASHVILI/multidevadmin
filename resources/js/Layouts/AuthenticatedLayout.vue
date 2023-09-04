@@ -5,7 +5,14 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { useImage } from '@vueuse/core'
+
+const { props } = usePage()
+
+const avatarUrl = props.auth.user.avatar
+
+const { isLoading } = useImage({ src: avatarUrl })
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -22,7 +29,7 @@ const showingNavigationDropdown = ref(false);
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
                                     <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                        class="h-4 mr-1 invert"
                                     />
                                 </Link>
                             </div>
@@ -45,8 +52,11 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ $page.props.auth.user.name }}
-
+                                                <div class="flex space-x-2 justify-between items-center">
+                                                    <span>{{ props.auth.user.name }}</span>
+                                                    <span v-if="isLoading">Loading</span>
+                                                    <img class="w-8 h-8 rounded-full" v-else :src="avatarUrl" alt="user photo">
+                                                </div>
                                                 <svg
                                                     class="ml-2 -mr-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +82,6 @@ const showingNavigationDropdown = ref(false);
                                 </Dropdown>
                             </div>
                         </div>
-
                         <!-- Hamburger -->
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button

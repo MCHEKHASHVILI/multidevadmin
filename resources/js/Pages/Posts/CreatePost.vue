@@ -11,13 +11,13 @@ defineProps({
     message: {
         type: String,
         required: false,
-        default: null,
+        default: '',
     }
 })
 const form = useForm({
-    title: null,
-    body: null,
-    avatar: null,
+    title: '',
+    body: '',
+    avatar: '',
 })
 
 

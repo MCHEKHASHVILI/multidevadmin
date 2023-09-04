@@ -24,6 +24,7 @@
         "@ckeditor/ckeditor5-build-classic": "^38.1.1",
         "@ckeditor/ckeditor5-ckbox": "^38.1.1",
         "@ckeditor/ckeditor5-vue": "^5.1.0",
+        "@vueuse/core": "^10.4.1",
         "flowbite": "^1.8.0",
         "flowbite-vue": "^0.0.17-next.0"
     }

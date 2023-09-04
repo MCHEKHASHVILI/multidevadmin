@@ -18,7 +18,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'avatar' => $this->getFirstMediaUrl('avatar', 'thumb'),
+            'avatar' => $this->getFirstMediaUrl('avatar'),
         ];
     }
 }

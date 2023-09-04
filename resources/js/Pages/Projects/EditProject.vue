@@ -42,12 +42,15 @@ function submit()
 
         <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="flex flex-col space-y-4">
-                <!-- <div>
+                <div>
+
+                </div>
+                <div>
                     <input type="file" @input="form.avatar = $event.target.files[0]" />
                         <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                         {{ form.progress.percentage }}%
                     </progress>
-                </div> -->
+                </div>
                 <div>
                     <InputLabel>Project Public Url</InputLabel>
                     <TextInput v-model="form.url" class="w-full" />

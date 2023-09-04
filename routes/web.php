@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('posts', PostController::class);
     Route::resource('projects', ProjectController::class);
+    Route::post('projects/upload', [ ProjectController::class, 'imageUpload' ])->name('projects.imageUpload');
 });
 
 require __DIR__.'/auth.php';
