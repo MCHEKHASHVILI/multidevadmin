@@ -64,7 +64,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage.s
      *
      * @param \App\Http\Requests\Projects\ProjectUpdateRequest $request
      * @param \App\Models\Project $project
