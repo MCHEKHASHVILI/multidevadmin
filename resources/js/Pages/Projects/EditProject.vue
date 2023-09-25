@@ -1,18 +1,14 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3'
-import AdminLayout from "@/Layouts/AdminLayout.vue"
-import { Head } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
+import { Head, useForm } from '@inertiajs/vue3'
+
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import TextInput from '@/Components/TextInput.vue'
 import TextareaInput from '@/Components/TextareaInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 
 const props = defineProps({
-    message: {
-        type: String,
-        required: false,
-        default: null,
-    },
     project: {
         type: Object,
         required: true,
@@ -23,31 +19,53 @@ const form = useForm({
     url: props.project?.url,
     title: props.project?.title,
     description: props.project?.description,
+    avatar: props.project?.avatar
 })
 
-function submit()
-{
-    // console.log(form);
-    form.put(route('projects.update', { project: props.project?.id }))
+async function submit() {
+    try {
+        form.post(route('projects.update',
+        {
+            _method: 'put',
+            project: props.project?.id,
+        },{
+            // avatar: form.avatar,
+        }),
+        {
+
+            // forceFormData: true,
+            onCancelToken: () => { console.log("onCancelToken:") },
+            onBefore: () => { console.log("onBefore:") }, // GlobalEventCallback<'before'>,
+            onStart: (start) => { console.log("onStart:", start.data) }, // GlobalEventCallback<'start'>,
+            onProgress: (some) => { console.log("onProgress:", some) },// GlobalEventCallback<'progress'>,
+            onFinish: (data) => { console.log("onFinish:", data) }, // GlobalEventCallback<'finish'>,
+            onCancel: () => { console.log("onCancel:") }, // GlobalEventCallback<'cancel'>,
+            onSuccess: () => { console.log("onSuccess:") }, // GlobalEventCallback<'success'>,
+            onError: (err) => { console.log("onError:", err) }, // GlobalEventCallback<'error'>,
+        })
+    } catch (err) { console.log("counght errors", err) }
 }
+
+// watch(tempUrl, (val) => { displayCover.value.src = val })
 
 </script>
 <template>
-    <AdminLayout>
+    <AuthenticatedLayout>
+
         <Head title="Edit Project" />
 
         <template #header>
             Edit Project
         </template>
-
+        <!-- <div class="w-1/2 h-auto mb-4 flex space-x-2" v-show="project.avatar || tempUrl"> -->
+            <!-- <img class="object-cover" :src="coverPicture" /> -->
+            <!-- <button v-if="custom" @click.prevent="custom = true">Cancel</button> -->
+        <!-- </div> -->
         <form @submit.prevent="submit" enctype="multipart/form-data">
             <div class="flex flex-col space-y-4">
                 <div>
-
-                </div>
-                <div>
-                    <input type="file" @input="form.avatar = $event.target.files[0]" />
-                        <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                    <input type="file" @change="form.avatar = $event.target.files[0]" />
+                    <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                         {{ form.progress.percentage }}%
                     </progress>
                 </div>
@@ -68,5 +86,5 @@ function submit()
                 </div>
             </div>
         </form>
-    </AdminLayout>
+    </AuthenticatedLayout>
 </template>

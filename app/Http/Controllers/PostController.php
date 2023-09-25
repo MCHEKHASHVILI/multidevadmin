@@ -68,7 +68,8 @@ class PostController extends Controller
             $post->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
 
-        return to_route('posts.index');
+        return inertia('Posts/EditPost', compact('post'));
+        // return to_route('posts.index');
     }
 
     /**

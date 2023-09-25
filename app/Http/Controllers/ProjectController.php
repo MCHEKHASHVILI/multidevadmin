@@ -7,7 +7,6 @@ use App\Http\Resources\Projects\ProjectResource;
 use App\Http\Requests\Projects\ProjectStoreRequest;
 use App\Http\Requests\Projects\ProjectUpdateRequest;
 use App\Http\Resources\Projects\ProjectListResource;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -16,9 +15,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = ProjectListResource::collection(Project::all());
-
-        return inertia('Projects/Projects', compact('projects'));
+        return inertia('Projects/Projects', [
+            "projects" => ProjectListResource::collection(Project::all())
+        ]);
     }
 
     /**
@@ -36,7 +35,7 @@ class ProjectController extends Controller
      */
     public function store(ProjectStoreRequest $request)
     {
-        $project = $request->user()->projects()->create($request->validated());
+        $request->user()->projects()->create($request->validated());
 
         return to_route('projects.index');
     }
@@ -60,7 +59,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return inertia('Projects/EditProject', compact('project'));
+        return inertia('Projects/EditProject', [
+            'project' => ProjectResource::make($project)
+        ]);
     }
 
     /**
@@ -71,14 +72,13 @@ class ProjectController extends Controller
      */
     public function update(ProjectUpdateRequest $request, Project $project)
     {
+
         $project->update($request->validated());
 
-        // dd($project);
-
-        if($request->hasFile('avatar')){
-            $project->clearMediaCollection('avatar');
-            $project->addMediaFromRequest('avatar')->toMediaCollection('avatar');
-        }
+        // if($request->hasFile('avatar')){
+            // $project->clearMediaCollection('avatar');
+            // $project->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        // }
 
         return to_route('projects.index');
     }
@@ -88,13 +88,17 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->clearMediaCollection('avatar');
+
+        $project->delete();
+
+        return to_route('projects.index');
     }
 
-    public function uploadImage(Request $request)
-    {
-        return response()->json([
-            'request' => $request
-        ]);
-    }
+    // public function uploadImage(Request $request)
+    // {
+    //     return response()->json([
+    //         'request' => $request
+    //     ]);
+    // }
 }

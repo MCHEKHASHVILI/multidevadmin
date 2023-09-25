@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import AdminLayout from "@/Layouts/AdminLayout.vue"
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import { Head } from '@inertiajs/vue3'
 import TextInput from '@/Components/TextInput.vue'
 // import TextareaInput from '@/Components/TextareaInput.vue'
@@ -16,7 +16,7 @@ const form = useForm({
     avatar: '',
 })
 
-console.log(ClassicEditor);
+// console.log(ClassicEditor);
 
 const editorConfig = {
     ...ClassicEditor.config,
@@ -35,11 +35,11 @@ const editorConfig = {
     }
 }
 
-const onEditorInput = () => console.log(form.description)
+// const onEditorInput = () => console.log(form.description)
 
 </script>
 <template>
-    <AdminLayout>
+    <AuthenticatedLayout>
 
         <Head title="Create Project" />
 
@@ -66,7 +66,8 @@ const onEditorInput = () => console.log(form.description)
                 <div>
                     <InputLabel>Project Description</InputLabel>
                     <ckeditor :editor="ClassicEditor" v-model="form.description" :config="editorConfig"
-                        @input="onEditorInput"></ckeditor>
+                        @input=""
+                        ></ckeditor>
                     <!-- <TextareaInput rows="4" v-model="form.description" /> -->
                 </div>
                 <div>
@@ -74,5 +75,5 @@ const onEditorInput = () => console.log(form.description)
                 </div>
             </div>
         </form>
-    </AdminLayout>
+    </AuthenticatedLayout>
 </template>

@@ -1,32 +1,27 @@
 <script setup>
-// import { ref } from 'vue';
-import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Head } from '@inertiajs/vue3';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { onMounted } from "vue"
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, router } from '@inertiajs/vue3';
+import CrudBanner from '@/Components/Banners/CrudBanner.vue'
 
-// const editorData = ref('<p>Content of the editor.</p>')
-// const editorConfig = {}
-
-// const onEditorInput = () => console.log(editorData)
-
+defineProps({
+    resources: Array | Object
+})
+onMounted(() => router.reload({ only: ['resources'] }))
 </script>
 
 <template>
     <Head title="Dashboard" />
 
-    <AdminLayout>
+    <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <!-- <ckeditor :editor="ClassicEditor" v-model="editorData" :config="editorConfig" @input="onEditorInput"></ckeditor> -->
-                    </div>
-                </div>
+            <div class="grid gap-2 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                <CrudBanner v-for="crud in resources" :crud="crud"/>
             </div>
         </div>
-    </AdminLayout>
+    </AuthenticatedLayout>
 </template>

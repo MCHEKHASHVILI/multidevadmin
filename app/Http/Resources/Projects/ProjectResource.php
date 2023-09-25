@@ -20,6 +20,7 @@ class ProjectResource extends JsonResource
             'description' => $this->description,
             'url' => $this->url,
             'avatar' => $this->getFirstMediaUrl('avatar'),
+            'status' => $this->latestStatus()
         ];
     }
 }

@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import AdminLayout from "@/Layouts/AdminLayout.vue"
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import { Head } from '@inertiajs/vue3'
 import TextInput from '@/Components/TextInput.vue'
 import TextareaInput from '@/Components/TextareaInput.vue'
@@ -23,7 +23,7 @@ const form = useForm({
 
 </script>
 <template>
-    <AdminLayout>
+    <AuthenticatedLayout>
         <Head title="Create Post" />
 
         <template #header>
@@ -51,5 +51,5 @@ const form = useForm({
                 </div>
             </div>
         </form>
-    </AdminLayout>
+    </AuthenticatedLayout>
 </template>

@@ -19,16 +19,51 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+    // return Inertia::render('Dashboard', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
+    $resources = [
+        "projects" => [
+            "title" => "Projects",
+            "route" => "projects.index",
+            "count" => count(\App\Models\Project::all()),
+        ],
+        "posts" => [
+            "title" => "Blog Posts",
+            "route" => "posts.index",
+            "count" => count(\App\Models\Post::all()),
+        ],
+    ];
+
+    // $resources = [1,2];
+    return inertia('Dashboard', compact('resources'));
+    // return Inertia::render('Welcome', [
+        // 'canLogin' => Route::has('login'),
+        // 'canRegister' => Route::has('register'),
+        // 'laravelVersion' => Application::VERSION,
+        // 'phpVersion' => PHP_VERSION,
+    // ]);
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $resources = [
+        "projects" => [
+            "title" => "Projects",
+            "route" => "projects.index",
+            "count" => count(\App\Models\Project::all()),
+        ],
+        "posts" => [
+            "title" => "Blog Posts",
+            "route" => "posts.index",
+            "count" => count(\App\Models\Post::all()),
+        ],
+    ];
+
+    // $resources = [1,2];
+    return inertia('Dashboard', compact('resources'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

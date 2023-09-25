@@ -14,7 +14,7 @@ const props = defineProps({
 const fields = ref([
     { key: 'avatar', label: 'Post Cover', },
     { key: 'title', label: 'Post title', },
-    { key: 'body', label: 'Post Body', format: (item) => item },
+    // { key: 'body', label: 'Post Body', format: (item) => item },
     { key: 'actions', label: 'Actions' },
 ])
 
@@ -24,7 +24,7 @@ const fields = ref([
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <BasicTable class="w-full text-sm text-left text-gray-500 dark:text-gray-400" :items="props.data" :fields="fields">
             <template #caption>
-                <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900">
+                <div class="flex items-center justify-between pb-4 ">
                     <div>
                         <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
                             class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -79,16 +79,16 @@ const fields = ref([
                 </div>
             </template>
             <template #cell(avatar)="{ item }">
-                <div class="max-w-4 h-auto">
-                    <img :src="item?.avatar" class="object-cover aspect-square" />
+                <div class="">
+                    <img :src="item?.avatar" class="object-contain h-24" />
                 </div>
             </template>
             <template #cell(title)="{ item }">
                 <div class="min-w-4 p-2 whitespace-nowrap">{{ item.title }}</div>
             </template>
-            <template #cell(body)="{ item }">
+            <!-- <template #cell(body)="{ item }">
                 <div class="min-w-4 p-2 whitespace-nowrap">{{ item.body }}</div>
-            </template>
+            </template> -->
             <template #cell(actions)="{ item }" class="items-end">
                 <Link :href="route('posts.edit', item.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
             </template>

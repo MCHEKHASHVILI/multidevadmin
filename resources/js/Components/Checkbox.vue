@@ -30,5 +30,6 @@ const proxyChecked = computed({
         :value="value"
         v-model="proxyChecked"
         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+        :class="['bg-transparent']"
     />
 </template>

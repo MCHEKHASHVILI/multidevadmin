@@ -18,7 +18,7 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource
      *
      * @param \App\Models\Project $project
      *
