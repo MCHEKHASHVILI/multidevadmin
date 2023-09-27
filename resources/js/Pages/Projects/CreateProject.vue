@@ -11,7 +11,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 // import { ckBox } from '@ckeditor/ckeditor5-ckfinder'
 
 const form = useForm({
-    name: '',
+    url: '',
     title: '',
     description: '',
     avatar: '',
