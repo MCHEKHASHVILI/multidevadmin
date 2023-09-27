@@ -12,7 +12,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 const form = useForm({
     name: '',
-    title: '',
+    company: '',
+    url: '',
     description: '',
     avatar: '',
 })
@@ -45,10 +46,10 @@ const editorConfig = {
         <Head title="Create Project" />
 
         <template #header>
-            Create Project
+            Create Client Review
         </template>
 
-        <form @submit.prevent="form.post(route('projects.store'))">
+        <form @submit.prevent="form.post(route('clients.store'))">
             <div class="flex flex-col space-y-4">
                 <div>
                     <input type="file" @input="form.avatar = $event.target.files[0]" />
@@ -57,17 +58,22 @@ const editorConfig = {
                     </progress>
                 </div>
                 <div>
-                    <InputLabel>Project Public Url</InputLabel>
+                    <InputLabel>Representative Name</InputLabel>
+                    <TextInput v-model="form.name" class="w-full" />
+                    <InputError class="mt-2" :message="form.errors.name" />
+                </div>
+                <div>
+                    <InputLabel>Company Name</InputLabel>
+                    <TextInput v-model="form.company" class="w-full" />
+                    <InputError class="mt-2" :message="form.errors.company" />
+                </div>
+                <div>
+                    <InputLabel>Company Url</InputLabel>
                     <TextInput v-model="form.url" class="w-full" />
                     <InputError class="mt-2" :message="form.errors.url" />
                 </div>
                 <div>
-                    <InputLabel>Project Title</InputLabel>
-                    <TextInput v-model="form.title" class="w-full" />
-                    <InputError class="mt-2" :message="form.errors.title" />
-                </div>
-                <div>
-                    <InputLabel>Project Description</InputLabel>
+                    <InputLabel>Note Description</InputLabel>
                     <ckeditor :editor="ClassicEditor" v-model="form.description" :config="editorConfig"
                         @input=""
                         ></ckeditor>

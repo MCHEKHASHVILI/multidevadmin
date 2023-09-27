@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, h } from "vue"
-import { Link } from '@inertiajs/vue3'
+import { ref } from "vue"
+import { Link, router } from '@inertiajs/vue3'
 import BasicTable from "@/Components/Tables/BasicTable.vue"
 const props = defineProps({
     data: {
@@ -19,6 +19,11 @@ const fields = ref([
 ])
 
 
+function destroy(id) {
+    if (confirm("Are you sure you want to Delete")) {
+        router.delete(route("posts.destroy", id));
+    }
+}
 </script>
 <template>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -91,6 +96,8 @@ const fields = ref([
             </template> -->
             <template #cell(actions)="{ item }" class="items-end">
                 <Link :href="route('posts.edit', item.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                <button type="submit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2"
+                    @click="destroy(item.id)">Delete</button>
             </template>
         </BasicTable>
     </div>

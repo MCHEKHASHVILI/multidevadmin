@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -36,6 +37,11 @@ Route::get('/', function () {
             "route" => "posts.index",
             "count" => count(\App\Models\Post::all()),
         ],
+        "clients" => [
+            "title" => "Client Reviews",
+            "route" => "clients.index",
+            "count" => count(\App\Models\Client::all()),
+        ],
     ];
 
     // $resources = [1,2];
@@ -60,6 +66,11 @@ Route::get('/dashboard', function () {
             "route" => "posts.index",
             "count" => count(\App\Models\Post::all()),
         ],
+        "clients" => [
+            "title" => "Client Reviews",
+            "route" => "clients.index",
+            "count" => count(\App\Models\Client::all()),
+        ],
     ];
 
     // $resources = [1,2];
@@ -73,6 +84,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('posts', PostController::class);
     Route::resource('projects', ProjectController::class);
+    Route::resource('clients', ClientController::class);
     Route::post('projects/upload', [ ProjectController::class, 'imageUpload' ])->name('projects.imageUpload');
 });
 

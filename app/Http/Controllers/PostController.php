@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Posts\PostStoreRequest;
+use App\Http\Requests\Posts\PostUpdateRequest;
+use App\Http\Resources\Posts\PostListResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -12,8 +14,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return inertia('Posts/Posts', compact('posts'));
+        return inertia('Posts/Posts', [
+            "posts" => PostListResource::collection(Post::all())
+        ]);
     }
 
     /**
@@ -27,9 +30,9 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
-        $post = Post::create($request->all());
+        $request->user()->posts()->create($request->validated());
 
         return to_route('posts.index');
     }
@@ -59,24 +62,29 @@ class PostController extends Controller
      *
      * @param \App\Models\Post $post
      */
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        $post->update($request->all());
+        $post->update($request->validated());
 
         if($request->hasFile('avatar')){
             $post->clearMediaCollection('avatar');
             $post->addMediaFromRequest('avatar')->toMediaCollection('avatar');
         }
 
-        return inertia('Posts/EditPost', compact('post'));
+        return to_route('posts.index');
         // return to_route('posts.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
+        $post->clearMediaCollection('avatar');
+
+        $post->delete();
+
+        return to_route('posts.index');
         // return to_route('posts.index');
     }
 }

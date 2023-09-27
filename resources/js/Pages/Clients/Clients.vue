@@ -1,34 +1,35 @@
 <script setup>
 import { onMounted } from "vue"
 import { Head, router } from '@inertiajs/vue3'
+
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import PostsTable from "@/Components/Tables/PostsTable.vue"
+import ClientsTable from '@/Components/Tables/ClientsTable.vue'
 import CreateNewButton from '@/Components/Buttons/CreateNewButton.vue'
 
 defineProps({
-    posts: {
+    clients: {
         type: Array,
         required: true
     }
 })
 
 onMounted(() => {
-    router.reload({ only: ['posts'] })
+    router.reload({ only: ['clients'] })
 })
 </script>
 <template>
     <AuthenticatedLayout>
 
-        <Head title="Posts" />
+        <Head title="Clients" />
 
         <template #header>
             <div class="w-full flex flex-row justify-between">
-                <h4>Posts</h4>
-                <CreateNewButton value="New Post" :url="route('posts.create')" />
+                <h1>Client Reviews</h1>
+                <CreateNewButton value="New Client Review" :url="route('clients.create')" />
             </div>
         </template>
 
-        <PostsTable :data="posts" />
+        <ClientsTable :data="clients" />
 
     </AuthenticatedLayout>
 </template>

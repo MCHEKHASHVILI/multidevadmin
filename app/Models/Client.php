@@ -10,13 +10,15 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Post extends Model implements HasMedia
+class Client extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'title',
-        'body',
+        'name',
+        'company',
+        'url',
+        'description',
     ];
 
     public function registerMediaConversions(Media $media = null): void

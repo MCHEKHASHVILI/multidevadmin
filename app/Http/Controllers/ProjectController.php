@@ -75,10 +75,10 @@ class ProjectController extends Controller
 
         $project->update($request->validated());
 
-        // if($request->hasFile('avatar')){
-            // $project->clearMediaCollection('avatar');
-            // $project->addMediaFromRequest('avatar')->toMediaCollection('avatar');
-        // }
+        if($request->hasFile('avatar')){
+            $project->clearMediaCollection('avatar');
+            $project->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
 
         return to_route('projects.index');
     }

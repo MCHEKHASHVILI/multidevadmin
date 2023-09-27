@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Post;
+use App\Models\Client;
 use App\Models\Project;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
@@ -50,5 +52,15 @@ class User extends Authenticatable implements HasMedia
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
     }
 }

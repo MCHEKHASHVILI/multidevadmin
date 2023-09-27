@@ -1,26 +1,32 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
-import { router } from '@inertiajs/vue3'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import { Head } from '@inertiajs/vue3'
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue';
-import TextareaInput from '@/Components/TextareaInput.vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+// import TextareaInput from '@/Components/TextareaInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+// import { ckBox } from '@ckeditor/ckeditor5-ckfinder'
 
 const props = defineProps({
-    message: {
-        type: String,
-        required: false,
-        default: null,
-    },
-    post: {
+    client: {
         type: Object,
         required: true,
     }
 })
+
+
+const form = useForm({
+    name: props.client.name,
+    company: props.client.company,
+    url: props.client.url,
+    description: props.client.description,
+    avatar: props.client.avatar,
+})
+
+// console.log(ClassicEditor);
 
 const editorConfig = {
     ...ClassicEditor.config,
@@ -39,23 +45,17 @@ const editorConfig = {
     }
 }
 
-
-const form = useForm({
-    title: props.post?.title,
-    body: props.post?.body,
-    avatar: ''
-})
-
 async function submit() {
     try {
-        form.post(route('posts.update',
+        form.post(route('clients.update',
         {
             _method: 'put',
-            post: props.post?.id,
+            client: props.client?.id,
         },{
             // avatar: form.avatar,
         }),
         {
+
             // forceFormData: true,
             onCancelToken: () => { console.log("onCancelToken:") },
             onBefore: () => { console.log("onBefore:") }, // GlobalEventCallback<'before'>,
@@ -68,38 +68,53 @@ async function submit() {
         })
     } catch (err) { console.log("counght errors", err) }
 }
+
+
+// const onEditorInput = () => console.log(form.description)
+
 </script>
 <template>
     <AuthenticatedLayout>
-        <Head title="Create Post" />
+
+        <Head title="Create Project" />
 
         <template #header>
-            Edit Post
+            Edit Client Review
         </template>
 
         <form @submit.prevent="submit">
             <div class="flex flex-col space-y-4">
                 <div>
-                    <input type="file" @change="form.avatar = $event.target.files[0]" />
+                    <input type="file" @input="form.avatar = $event.target.files[0]" />
                     <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                         {{ form.progress.percentage }}%
                     </progress>
                 </div>
                 <div>
-                    <InputLabel>Post Title</InputLabel>
-                    <TextInput v-model="form.title" class="w-full" />
-                    <InputError class="mt-2" :message="form.errors.title" />
+                    <InputLabel>Representative Name</InputLabel>
+                    <TextInput v-model="form.name" class="w-full" />
+                    <InputError class="mt-2" :message="form.errors.name" />
                 </div>
                 <div>
-                    <InputLabel>Post Body</InputLabel>
-                    <ckeditor :editor="ClassicEditor" v-model="form.body" :config="editorConfig"
+                    <InputLabel>Company Name</InputLabel>
+                    <TextInput v-model="form.company" class="w-full" />
+                    <InputError class="mt-2" :message="form.errors.company" />
+                </div>
+                <div>
+                    <InputLabel>Company Url</InputLabel>
+                    <TextInput v-model="form.url" class="w-full" />
+                    <InputError class="mt-2" :message="form.errors.url" />
+                </div>
+                <div>
+                    <InputLabel>Note Description</InputLabel>
+                    <ckeditor :editor="ClassicEditor" v-model="form.description" :config="editorConfig"
                         @input=""
                         ></ckeditor>
-                        <InputError class="mt-2" :message="form.errors.body" />
-                    <!-- <TextareaInput rows="4" v-model="form.body" /> -->
+                        <InputError class="mt-2" :message="form.errors.description" />
+                    <!-- <TextareaInput rows="4" v-model="form.description" /> -->
                 </div>
                 <div>
-                    <PrimaryButton class="uppercase">submit</PrimaryButton>
+                    <PrimaryButton type="submit" class="uppercase">update</PrimaryButton>
                 </div>
             </div>
         </form>
