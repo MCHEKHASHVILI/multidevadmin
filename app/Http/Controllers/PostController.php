@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\TemporaryFile;
+use App\Http\Resources\Posts\PostResource;
 use App\Http\Requests\Posts\PostStoreRequest;
 use App\Http\Requests\Posts\PostUpdateRequest;
 use App\Http\Resources\Posts\PostListResource;
-use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -32,6 +34,7 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
+
         $request->user()->posts()->create($request->validated());
 
         return to_route('posts.index');
@@ -54,7 +57,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return inertia('Posts/EditPost', compact('post'));
+        return inertia('Posts/EditPost', [
+            "post" => PostResource::make($post)
+        ]);
     }
 
     /**
@@ -66,13 +71,18 @@ class PostController extends Controller
     {
         $post->update($request->validated());
 
-        if($request->hasFile('avatar')){
-            $post->clearMediaCollection('avatar');
-            $post->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        if ($request->has('avatar')) {
+            $tempFile = TemporaryFile::where('directory', request()->avatar)->first();
+            if ($tempFile) {
+                $post->clearMediaCollection('avatar');
+                $post->addMedia(
+                    storage_path('app/public/_temp/' . request()->avatar . '/' . $tempFile->file_name)
+                )->toMediaCollection('avatar');
+                rmdir(storage_path('app/public/_temp/' . request()->avatar));
+                $tempFile->delete();
+            }
         }
-
         return to_route('posts.index');
-        // return to_route('posts.index');
     }
 
     /**

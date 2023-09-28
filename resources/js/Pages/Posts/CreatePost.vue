@@ -3,11 +3,14 @@ import { useForm } from '@inertiajs/vue3'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import { Head } from '@inertiajs/vue3'
 import TextInput from '@/Components/TextInput.vue'
-import InputError from '@/Components/InputError.vue';
+import InputError from '@/Components/InputError.vue'
 import TextareaInput from '@/Components/TextareaInput.vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import FileUpload from '@/Components/Inputs/FileUpload.vue'
+
+
 
 defineProps({
     message: {
@@ -21,7 +24,7 @@ const editorConfig = {
     ...ClassicEditor.config,
     simpleUpload: {
         // The URL that the images are uploaded to.
-        uploadUrl: route('projects.imageUpload'),
+        // uploadUrl: route('posts.imageUpload'),
 
         // // Enable the XMLHttpRequest.withCredentials property.
         // withCredentials: true,
@@ -41,6 +44,10 @@ const form = useForm({
     avatar: '',
 })
 
+function onFileUpload(key)
+{
+    form.avatar = key
+}
 
 </script>
 <template>
@@ -54,10 +61,12 @@ const form = useForm({
         <form @submit.prevent="form.post(route('posts.store'))">
             <div class="flex flex-col space-y-4">
                 <div>
-                    <input type="file" @input="form.avatar = $event.target.files[0]" />
+                    <!-- <input type="file" @input="form.avatar = $event.target.files[0]" />
                         <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                         {{ form.progress.percentage }}%
-                    </progress>
+                    </progress> -->
+                    <InputLabel>Avatar</InputLabel>
+                    <FileUpload @onFileUpload="onFileUpload" label="Drop Avatar"/>
                 </div>
                 <div>
                     <InputLabel>Post Title</InputLabel>

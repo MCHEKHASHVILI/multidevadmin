@@ -23,11 +23,16 @@
         "@ckeditor/ckeditor5-alignment": "^38.1.1",
         "@ckeditor/ckeditor5-build-classic": "^38.1.1",
         "@ckeditor/ckeditor5-ckbox": "^38.1.1",
+        "@ckeditor/ckeditor5-upload": "^39.0.2",
         "@ckeditor/ckeditor5-vue": "^5.1.0",
         "@inertiajs/inertia": "^0.11.1",
         "@vueuse/core": "^10.4.1",
+        "filepond": "^4.30.4",
+        "filepond-plugin-file-validate-type": "^1.2.8",
+        "filepond-plugin-image-preview": "^4.6.11",
         "flowbite": "^1.8.0",
         "flowbite-vue": "^0.0.17-next.0",
-        "inertia": "^0.0.7"
+        "inertia": "^0.0.7",
+        "vue-filepond": "^7.0.4"
     }
 }

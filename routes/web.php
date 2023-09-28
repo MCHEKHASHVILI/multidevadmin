@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\ClientController;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +86,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('projects', ProjectController::class);
     Route::resource('clients', ClientController::class);
-    Route::post('projects/upload', [ ProjectController::class, 'imageUpload' ])->name('projects.imageUpload');
+    Route::post('uploads', [ UploadController::class, 'store' ])->name('uploads.store');
 });
+
+Route::post('uploads/gallery', [ UploadController::class, 'gallery' ])->name('uploads.gallery');
 
 require __DIR__.'/auth.php';
