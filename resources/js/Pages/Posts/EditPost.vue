@@ -4,7 +4,9 @@ import { Head, useForm, usePage } from '@inertiajs/vue3'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
+// import { ImageResize } from '@ckeditor/ckeditor5-image'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import FileUpload from '@/Components/Inputs/FileUpload.vue'
@@ -21,12 +23,15 @@ const props = defineProps({
     }
 })
 
+const editor = ClassicEditor
+
 const { props: pageProps } = usePage()
 
 // console.log(pageProps);
 
 const editorConfig = {
-    ...ClassicEditor.config,
+    ...editor.config,
+    // plugins: [ ImageResize ],
     ckfinder: {
         uploadUrl: route('uploads.gallery'), // url to server-side http endpoint // mandatory
         'X-CSRF-TOKEN': pageProps._csrf_token, // csrf token for laravel
@@ -99,7 +104,7 @@ function submit() {
                 <div>
                     <InputLabel>Post Body</InputLabel>
                     <ckeditor
-                        :editor="ClassicEditor"
+                        :editor="editor"
                         v-model="form.body"
                         :config="editorConfig"></ckeditor>
                     <InputError class="mt-2" :message="form.errors.body" />

@@ -22,18 +22,10 @@ defineProps({
 
 const editorConfig = {
     ...ClassicEditor.config,
-    simpleUpload: {
-        // The URL that the images are uploaded to.
-        // uploadUrl: route('posts.imageUpload'),
-
-        // // Enable the XMLHttpRequest.withCredentials property.
-        // withCredentials: true,
-
-        // // Headers sent along with the XMLHttpRequest to the upload server.
-        // headers: {
-        //     'X-CSRF-TOKEN': 'CSRF-Token',
-        //     Authorization: 'Bearer <JSON Web Token>'
-        // }
+    ckfinder: {
+        uploadUrl: route('uploads.gallery'), // url to server-side http endpoint // mandatory
+        'X-CSRF-TOKEN': pageProps._csrf_token, // csrf token for laravel
+        withCredentials: false, // csrf token for laravel
     }
 }
 
