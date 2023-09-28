@@ -1,16 +1,13 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
 import { Head } from '@inertiajs/vue3'
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
-import TextareaInput from '@/Components/TextareaInput.vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import FileUpload from '@/Components/Inputs/FileUpload.vue'
-
-
 
 defineProps({
     message: {
@@ -19,6 +16,8 @@ defineProps({
         default: '',
     }
 })
+
+const { props: pageProps } = usePage()
 
 const editorConfig = {
     ...ClassicEditor.config,
