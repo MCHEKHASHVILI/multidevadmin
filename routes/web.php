@@ -46,7 +46,7 @@ Route::get('/', function () {
 
     return inertia('Dashboard', compact('resources'));
 
-})->middleware(['auth', 'verified'])->name('home');
+})->middleware(['auth'])->name('home');
 
 Route::get('/dashboard', function () {
     $resources = [
