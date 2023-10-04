@@ -2,7 +2,6 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UploadController;
@@ -45,14 +44,8 @@ Route::get('/', function () {
         ],
     ];
 
-    // $resources = [1,2];
     return inertia('Dashboard', compact('resources'));
-    // return Inertia::render('Welcome', [
-        // 'canLogin' => Route::has('login'),
-        // 'canRegister' => Route::has('register'),
-        // 'laravelVersion' => Application::VERSION,
-        // 'phpVersion' => PHP_VERSION,
-    // ]);
+
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::get('/dashboard', function () {
@@ -74,9 +67,9 @@ Route::get('/dashboard', function () {
         ],
     ];
 
-    // $resources = [1,2];
     return inertia('Dashboard', compact('resources'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+})->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

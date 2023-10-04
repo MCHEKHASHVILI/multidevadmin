@@ -9,19 +9,21 @@ class PostObserver
 {
     public function created(Post $post)
     {
-        if (!request()->has('avatar')) { return false; }
+        if (request()->has('avatar')) {
+            $tempFile = TemporaryFile::where('directory', request()->avatar)->first();
 
-        $tempFile = TemporaryFile::where('directory', request()->avatar)->first();
+            if ($tempFile) {
+                $post->addMedia(
+                    storage_path('app/public/_temp/' . request()->avatar . '/' . $tempFile->file_name)
+                )->toMediaCollection('avatar');
 
-        if (!$tempFile) { return false; }
+                rmdir(storage_path('app/public/_temp/' . request()->avatar));
 
-        $post->addMedia(
-            storage_path('app/public/_temp/' . request()->avatar . '/' . $tempFile->file_name)
-        )->toMediaCollection('avatar');
+                $tempFile->delete();
+            }
+        }
 
-        rmdir(storage_path('app/public/_temp/' . request()->avatar));
 
-        $tempFile->delete();
     }
 
     public function updated(Post $post)
