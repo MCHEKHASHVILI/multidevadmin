@@ -21,7 +21,7 @@ const form = useForm({
     email: '',
     password: '',
     remember: false,
-    _token: pageProps._csrf_token,
+    // _token: pageProps._csrf_token,
 });
 
 const submit = () => {
