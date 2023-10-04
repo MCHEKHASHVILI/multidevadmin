@@ -20,58 +20,39 @@ use App\Http\Controllers\ProjectController;
 */
 
 Route::get('/', function () {
-    // return Inertia::render('Dashboard', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
-    $resources = [
-        "projects" => [
-            "title" => "Projects",
-            "route" => "projects.index",
-            "count" => count(\App\Models\Project::all()),
-        ],
-        "posts" => [
-            "title" => "Blog Posts",
-            "route" => "posts.index",
-            "count" => count(\App\Models\Post::all()),
-        ],
-        "clients" => [
-            "title" => "Client Reviews",
-            "route" => "clients.index",
-            "count" => count(\App\Models\Client::all()),
-        ],
-    ];
-
-    return inertia('Dashboard', compact('resources'));
-
-})->middleware(['auth'])->name('home');
-
-Route::get('/dashboard', function () {
-    $resources = [
-        "projects" => [
-            "title" => "Projects",
-            "route" => "projects.index",
-            "count" => count(\App\Models\Project::all()),
-        ],
-        "posts" => [
-            "title" => "Blog Posts",
-            "route" => "posts.index",
-            "count" => count(\App\Models\Post::all()),
-        ],
-        "clients" => [
-            "title" => "Client Reviews",
-            "route" => "clients.index",
-            "count" => count(\App\Models\Client::all()),
-        ],
-    ];
-
-    return inertia('Dashboard', compact('resources'));
-
-})->middleware(['auth'])->name('dashboard');
+    return redirect('/dashboard');
+})->name('home');
 
 Route::middleware('auth')->group(function () {
+
+
+    Route::get('/dashboard', function () {
+        dd("here");
+        $resources = [
+            "projects" => [
+                "title" => "Projects",
+                "route" => "projects.index",
+                "count" => count(\App\Models\Project::all()),
+            ],
+            "posts" => [
+                "title" => "Blog Posts",
+                "route" => "posts.index",
+                "count" => count(\App\Models\Post::all()),
+            ],
+            "clients" => [
+                "title" => "Client Reviews",
+                "route" => "clients.index",
+                "count" => count(\App\Models\Client::all()),
+            ],
+        ];
+
+        return inertia('Dashboard', compact('resources'));
+
+    })->name('dashboard');
+
+
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
