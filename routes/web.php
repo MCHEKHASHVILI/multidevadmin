@@ -23,32 +23,35 @@ Route::get('/', function () {
     return redirect('/dashboard');
 })->name('home');
 
+
+Route::get('/dashboard', function () {
+
+    $resources = [
+        "projects" => [
+            "title" => "Projects",
+            "route" => "projects.index",
+            "count" => count(\App\Models\Project::all()),
+        ],
+        "posts" => [
+            "title" => "Blog Posts",
+            "route" => "posts.index",
+            "count" => count(\App\Models\Post::all()),
+        ],
+        "clients" => [
+            "title" => "Client Reviews",
+            "route" => "clients.index",
+            "count" => count(\App\Models\Client::all()),
+        ],
+    ];
+
+    return inertia('Dashboard', compact('resources'));
+
+})->name('dashboard');
+
 Route::middleware('auth')->group(function () {
 
 
-    Route::get('/dashboard', function () {
-        dd("here");
-        $resources = [
-            "projects" => [
-                "title" => "Projects",
-                "route" => "projects.index",
-                "count" => count(\App\Models\Project::all()),
-            ],
-            "posts" => [
-                "title" => "Blog Posts",
-                "route" => "posts.index",
-                "count" => count(\App\Models\Post::all()),
-            ],
-            "clients" => [
-                "title" => "Client Reviews",
-                "route" => "clients.index",
-                "count" => count(\App\Models\Client::all()),
-            ],
-        ];
 
-        return inertia('Dashboard', compact('resources'));
-
-    })->name('dashboard');
 
 
 
